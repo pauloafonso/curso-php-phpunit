@@ -8,15 +8,13 @@ This is forked from https://github.com/viniciuswebdev/curso-php-phpunit, the "Te
 
 In his project, he created a pseudo-framework to simulate an environment more complex than the usual unit tests exemples.
 
-In my forked project, I'm going to work in the "parte_2" directory, where there is this pseudo-framework, using docker to set up a basic php8 environment.
+I am using this pseudo-framework to practice, and I'm using docker to set up a basic php8 environment.
 
 ## instalation
 
 1. Clone:
 
 `git clone git@github.com:pauloafonso/curso-php-phpunit.git`
-
-2. Go to the "parte_2" directory
 
 3. Bulding the php8 docker image:
 
