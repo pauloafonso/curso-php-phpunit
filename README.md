@@ -1,37 +1,35 @@
+# tdd-phpunit improving
 
-## Testes unitários e TDD com PHP e PHPUnit
+seeking to improve my unit tests with phpunit.
 
-### Material do curso
-https://www.udemy.com/testes-unitarios-php-phpunit/
+## description
 
-## Instruções
+This is forked from https://github.com/viniciuswebdev/curso-php-phpunit, the "Testes unitários e TDD com PHP e PHPUnit" (Unit Tests and TDD with PHP and PHPUnit) course instructor.
 
-Clone o projeto:
+In his project, he created a pseudo-framework to simulate an environment more complex than the usual unit tests exemples.
 
-`git clone git@github.com:viniciuswebdev/curso-php-phpunit.git`
+In my forked project, I'm going to work in the "parte_2" directory, where there is this pseudo-framework, using docker to set up a basic php8 environment.
 
-#### Parte 1
+## instalation
 
-Para executar os testes da `parte 1` basta acessar o diretório:
+1. Clone:
 
-`cd curso-php-phpunit/parte_1`
+`git clone git@github.com:pauloafonso/curso-php-phpunit.git`
 
-E executar os testes:
+2. Go to the "parte_2" directory
 
-`php run_tests.php`
+3. Bulding the php8 docker image:
 
-#### Parte 2
+`docker build -t tdd-php8-image .`
 
-Para executar os testes da `parte 2` siga as seguintes instruções:
+4. Creating and running the container (and keeping it up using the -it):
 
- Acesse o diretório do projeto:
- 
-`cd curso-php-phpunit/parte_2`
+`docker run -it --mount type=bind,source="$(pwd)",target=/var/www/tdd-improving --name tdd-improving tdd-php8-image`
 
- Instale as dependências:
- 
-`./composer.phar install`
+5. Installing the composer dependencies (phpunit) and running the pseudo-framework autoloader
 
- Execute os testes:
- 
-`./vendor/bin/phpunit src/`
+`docker exec -w /var/www/tdd-improving tdd-improving composer install`
+
+6. Executing the tests:
+
+`docker exec tdd-improving ./vendor/bin/phpunit src/`
