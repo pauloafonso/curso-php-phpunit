@@ -22,9 +22,9 @@ In my forked project, I'm going to work in the "parte_2" directory, where there 
 
 `docker build -t tdd-php8-image .`
 
-4. Creating and running the container (and keeping it up using the -it):
+4. Creating and running the container:
 
-`docker run -it --mount type=bind,source="$(pwd)",target=/var/www/tdd-improving --name tdd-improving tdd-php8-image`
+`docker run -d --restart=unless-stopped --mount type=bind,source="$(pwd)",target=/var/www/tdd-improving --name tdd-improving tdd-php8-image`
 
 5. Installing the composer dependencies (phpunit) and running the pseudo-framework autoloader
 
