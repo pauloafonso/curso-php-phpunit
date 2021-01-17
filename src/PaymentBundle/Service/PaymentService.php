@@ -12,17 +12,10 @@ use PaymentBundle\Repository\PaymentTransactionRepository;
 
 class PaymentService
 {
-    private $gateway;
-    private $paymentTransactionRepository;
-
     public function __construct(
-        Gateway $gateway,
-        PaymentTransactionRepository $paymentTransactionRepository
-    )
-    {
-        $this->gateway = $gateway;
-        $this->paymentTransactionRepository = $paymentTransactionRepository;
-    }
+        private Gateway $gateway,
+        private PaymentTransactionRepository $paymentTransactionRepository,
+    ) { }
 
     public function pay(Customer $customer, Item $item, CreditCard $creditCard)
     {
