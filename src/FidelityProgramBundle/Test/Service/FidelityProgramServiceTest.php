@@ -61,10 +61,6 @@ class FidelityProgramServiceTest extends TestCase
 	*/
 	public function shouldWriteLogOfPointsAddedWhenPointsAreAdded()
 	{
-		// $pointsRepository->save
-		// pointsCalculator->calculatePointsToReceive
-		// logger->log
-
 		$pointsRepository = $this->createMock(PointsRepositoryInterface::class);
 		$pointsRepository->method('save');
 
