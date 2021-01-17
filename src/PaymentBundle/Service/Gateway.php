@@ -9,29 +9,19 @@ class Gateway
 {
     const BASE_URL = 'https://paymentgateway.ex';
 
-    private $httpClient;
-    private $logger;
-    private $user;
-    private $password;
-
     public function __construct(
-        HttpClientInterface $httpClient,
-        LoggerInterface $logger,
-        $user,
-        $password
+        private HttpClientInterface $httpClient,
+        private LoggerInterface $logger,
+        private string $user,
+        private string $password,
     )
+    { }
+
+    public function pay($name, $creditCardNumber, \DateTime $validity = null, $value): bool
     {
-        $this->httpClient = $httpClient;
-        $this->logger = $logger;
-        $this->user = $user;
-        $this->password = $password;
-    }
-
-    public function pay($name, $creditCardNumber, \DateTime $validity = null, $value) {
-
         $token = $this->httpClient->send('POST', self::BASE_URL . '/authenticate', [
             'user' => $this->user,
-            'password' => $this->password
+            'password' => $this->password,
         ]);
 
         if (!$token) {
@@ -41,10 +31,10 @@ class Gateway
 
         $response = $this->httpClient->send('POST', self::BASE_URL . '/pay', [
             'name' => $name,
-            'credit_card_number' => $creditCardNumber,
+            'creditCardNumber' => $creditCardNumber,
             'validity' => $validity,
             'value' => $value,
-            'token' => $token
+            'token' => $token,
         ]);
 
         if (!$response['paid'] === true) {
