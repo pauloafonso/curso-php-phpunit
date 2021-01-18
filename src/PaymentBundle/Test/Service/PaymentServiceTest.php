@@ -67,4 +67,14 @@ class PaymentServiceTest extends TestCase
 
 		$this->paymentService->pay($this->customer, $this->item, $this->creditCard);
 	}
+
+	public function tearDown(): void
+	{
+		unset($this->gateway);
+		unset($this->paymentTransactionRepository);
+		unset($this->paymentService);
+		unset($this->customer);
+		unset($this->item);
+		unset($this->creditCard);
+	}
 }

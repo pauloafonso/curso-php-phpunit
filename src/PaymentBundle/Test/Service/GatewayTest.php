@@ -391,4 +391,10 @@ class GatewayTest extends TestCase
 			],
 		];
 	}
+
+	public function tearDown(): void
+	{
+		unset($this->httpClient);
+		unset($this->logger);
+	}
 }

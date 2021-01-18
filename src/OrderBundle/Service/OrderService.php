@@ -33,8 +33,13 @@ class OrderService
         $this->fidelityProgramService = $fidelityProgramService;
     }
 
-    public function process(Customer $customer, Item $item, $description, CreditCard $creditCard)
-    {
+    public function process(
+        Customer $customer,
+        Item $item,
+        $description,
+        CreditCard $creditCard,
+    ): Order {
+
         $this->validateConditions($customer, $item, $description);
 
         $order = $this->createOrder($customer, $item, $description, $creditCard);
@@ -57,8 +62,12 @@ class OrderService
         }
     }
 
-    private function createOrder(Customer $customer, Item $item, $description, CreditCard $creditCard)
-    {
+    private function createOrder(
+        Customer $customer,
+        Item $item,
+        $description,
+        CreditCard $creditCard,
+    ): Order {
         $paymentTransaction = $this->paymentService->pay($customer, $item, $creditCard);
 
         $order = new Order($customer, $paymentTransaction, $item, $description);
