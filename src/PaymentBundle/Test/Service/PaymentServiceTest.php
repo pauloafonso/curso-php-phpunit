@@ -30,7 +30,7 @@ class PaymentServiceTest extends TestCase
 			->method('save');
 
 		$paymentService = new PaymentService($gateway, $paymentTransactionRepository);
-		
+
 		$customer = $this->createMock(Entity\Customer::class);
 		$item = $this->createMock(Entity\Item::class);
 		$creditCard = $this->createMock(Entity\CreditCard::class);

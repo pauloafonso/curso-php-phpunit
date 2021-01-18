@@ -48,6 +48,35 @@ class GatewayTest extends TestCase
 		$this->assertEquals($expectedResult, $paid);
 	}
 
+	/**
+	 * @test
+	*/
+	public function shouldPayIfIsAuthenticatedAndPayPostIsSuccessfulUsingOnConsecutiveCalls()
+	{
+		$httpClient = $this->createMock(HttpClientInterface::class);
+		$httpClient
+			->expects($this->atLeast(2))
+			->method('send')
+			->will($this->onConsecutiveCalls('token', ['paid' => true]));
+
+		$logger = $this->createMock(LoggerInterface::class);
+		$logger
+			->expects($this->never())
+			->method('log');
+
+		$user = "paulo_lima";
+		$password = "valid-password";
+
+		$gateway = new Gateway(
+			$httpClient,
+			$logger,
+			$user,
+			$password,
+		);
+
+		$gateway->pay('paulo lima gatti', '1234567891234567', new \DateTime('now'), 50.00);
+	}
+
 	private function fakeHttpClient($httpMethod, $uri, $body)
 	{
 		switch ($uri) {
