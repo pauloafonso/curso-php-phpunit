@@ -8,6 +8,15 @@ use MyFramework\LoggerInterface;
 
 class GatewayTest extends TestCase
 {
+	private $httpClient;
+	private $logger;
+
+	public function setUp(): void
+	{
+		$this->httpClient = $this->createMock(HttpClientInterface::class);
+		$this->logger = $this->createMock(LoggerInterface::class);
+	}
+
 	/**
 	 * @test
 	 * @dataProvider paymentUsingFakeApproachDataProvider
@@ -21,19 +30,16 @@ class GatewayTest extends TestCase
 		$value,
 		$expectedResult,
 	) {
-		$httpClient = $this->createStub(HttpClientInterface::class);
-
-		$httpClient
+		$this->httpClient
 			->method('send')
 			->will($this->returnCallback(function ($httpMethod, $uri, $body) {
 				return $this->fakeHttpClient($httpMethod, $uri, $body);
 			}));
 
-		$logger = $this->createMock(LoggerInterface::class);
 
 		$gateway = new Gateway(
-			$httpClient,
-			$logger,
+			$this->httpClient,
+			$this->logger,
 			$user,
 			$password
 		);
@@ -53,14 +59,12 @@ class GatewayTest extends TestCase
 	*/
 	public function shouldPayIfIsAuthenticatedAndPayPostIsSuccessfulUsingOnConsecutiveCalls()
 	{
-		$httpClient = $this->createMock(HttpClientInterface::class);
-		$httpClient
+		$this->httpClient
 			->expects($this->atLeast(2))
 			->method('send')
 			->will($this->onConsecutiveCalls('token', ['paid' => true]));
 
-		$logger = $this->createMock(LoggerInterface::class);
-		$logger
+		$this->logger
 			->expects($this->never())
 			->method('log');
 
@@ -68,8 +72,8 @@ class GatewayTest extends TestCase
 		$password = "valid-password";
 
 		$gateway = new Gateway(
-			$httpClient,
-			$logger,
+			$this->httpClient,
+			$this->logger,
 			$user,
 			$password,
 		);
@@ -143,8 +147,6 @@ class GatewayTest extends TestCase
 		$validity = new \DateTime('2022-12-20');
 		$value = 434.43;
 
-		$httpClient = $this->createMock(HttpClientInterface::class);
-
 		$map = [
 			'POST',
 			Gateway::BASE_URL . '/authenticate',
@@ -155,16 +157,15 @@ class GatewayTest extends TestCase
 	        null,
 		];
 
-		$httpClient
+		$this->httpClient
 			->expects($this->once())
 			->method('send')
 			->will($this->returnValueMap($map));
 
-		$logger = $this->createMock(LoggerInterface::class);
 
 		$gateway = new Gateway(
-			$httpClient,
-			$logger,
+			$this->httpClient,
+			$this->logger,
 			$user,
 			$password
 		);
@@ -193,7 +194,6 @@ class GatewayTest extends TestCase
 		$validity = new \DateTime('2022-12-20');
 		$value = 434.43;
 
-		$httpClient = $this->createMock(HttpClientInterface::class);
 
 		$map = [
 			[
@@ -219,16 +219,15 @@ class GatewayTest extends TestCase
 	        ],
 		];
 
-		$httpClient
+		$this->httpClient
 			->expects($this->atLeast(2))
 			->method('send')
 			->will($this->returnValueMap($map));
 
-		$logger = $this->createMock(LoggerInterface::class);
 
 		$gateway = new Gateway(
-			$httpClient,
-			$logger,
+			$this->httpClient,
+			$this->logger,
 			$user,
 			$password
 		);
@@ -260,18 +259,16 @@ class GatewayTest extends TestCase
 		$map,
 		$expectedResult,
 	) {
-		$httpClient = $this->createMock(HttpClientInterface::class);
 
-		$httpClient
+		$this->httpClient
 			->expects($expects)
 			->method('send')
 			->will($this->returnValueMap($map));
 
-		$logger = $this->createMock(LoggerInterface::class);
 
 		$gateway = new Gateway(
-			$httpClient,
-			$logger,
+			$this->httpClient,
+			$this->logger,
 			$user,
 			$password,
 		);
