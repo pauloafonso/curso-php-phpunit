@@ -28,58 +28,39 @@ class DiscountServiceTest extends TestCase
 
 	/**
 	 * @test
+	 * @dataProvider dataProvider
 	*/
-	public function shouldGiveFivePercentDiscountWhenIsEleventhPurchase()
+	public function getDiscount($customerTotalOrders, $expectedResult)
 	{
 		$this->customer
 			->method('getTotalOrders')
-			->willReturn(11);
+			->willReturn($customerTotalOrders);
 
 		$discount = $this->discountService->getDiscount($this->customer);
 
-		$this->assertEquals(5.0, $discount);
+		$this->assertEquals($expectedResult, $discount);
 	}
 
-	/**
-	 * @test
-	*/
-	public function shouldGiveTenPercentDiscountWhenIsTwentiethPurchase()
+	public function dataProvider()
 	{
-		$this->customer
-			->method('getTotalOrders')
-			->willReturn(20);
-
-		$discount = $this->discountService->getDiscount($this->customer);
-
-		$this->assertEquals(10.0, $discount);
-	}
-
-	/**
-	 * @test
-	*/
-	public function shouldGiveFiftyPercentDiscountWhenIsFiftiethPurchase()
-	{
-		$this->customer
-			->method('getTotalOrders')
-			->willReturn(50);
-
-		$discount = $this->discountService->getDiscount($this->customer);
-
-		$this->assertEquals(50.0, $discount);
-	}
-
-	/**
-	 * @test
-	*/
-	public function shouldGiveFullDiscountWhenIsHundredthPurchase()
-	{
-		$this->customer
-			->method('getTotalOrders')
-			->willReturn(100);
-
-		$discount = $this->discountService->getDiscount($this->customer);
-
-		$this->assertEquals(100.0, $discount);
+		return [
+			'shouldGiveFivePercentDiscountWhenIsEleventhPurchase' => [
+				'customerTotalOrders' => 11,
+				'expectedResult' => 5.0,
+			],
+			'shouldGiveTenPercentDiscountWhenIsTwentiethPurchase' => [
+				'customerTotalOrders' => 20,
+				'expectedResult' => 10,
+			],
+			'shouldGiveFiftyPercentDiscountWhenIsFiftiethPurchase' => [
+				'customerTotalOrders' => 50,
+				'expectedResult' => 50,
+			],
+			'shouldGiveFullDiscountWhenIsHundredthPurchase' => [
+				'customerTotalOrders' => 100,
+				'expectedResult' => 100,
+			],
+		];
 	}
 }
 /*
