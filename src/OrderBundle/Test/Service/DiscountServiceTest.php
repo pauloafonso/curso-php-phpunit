@@ -63,11 +63,3 @@ class DiscountServiceTest extends TestCase
 		];
 	}
 }
-/*
-Discount rules
-
-The 11 purchase -> 5%
-The 20 purchase -> 10%
-The 50 purchase -> 50%
-The 100 purchase -> 100%
-*/
