@@ -31,3 +31,9 @@ I am using this pseudo-framework to practice, and I'm using docker to set up a b
 6. Executing the tests:
 
 `docker exec tdd-improving ./vendor/bin/phpunit src/`
+
+Note: to generate the code coverage, use the directory code-coverage, e.g:
+
+` --coverage-html code-coverage --coverage-filter src/`
+
+For other coverage result file or filter, see the <a href="https://phpunit.readthedocs.io/en/9.5/textui.html#textui-clioptions" target="_blank">phpunit documentation</a>.
